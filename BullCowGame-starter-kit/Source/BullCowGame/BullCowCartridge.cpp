@@ -6,33 +6,56 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     Super::BeginPlay();
 
     SetupGame();
-
-    PrintLine(TEXT("Welcome to Bull Cows!"));
-    PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len());
-    PrintLine(TEXT("Press enter to continue..."));
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
-    ClearScreen();
-    if (Input == HiddenWord)
+    if (bGameOver == true) 
     {
-        PrintLine(TEXT("You have Won!"));
+        ClearScreen();
+        SetupGame();
     }
     else
     {
-        if (Input.Len() != HiddenWord.Len())
+        if (Input == HiddenWord)
         {
-            PrintLine(TEXT("You must enter a %i letter word."), HiddenWord.Len());
+            PrintLine(TEXT("You have Won!"));
+            EndGame();
         }
-
-        PrintLine(TEXT("You have Lost!"));
+        else
+        {
+            if (--Lives <= 0) 
+            {
+                PrintLine(TEXT("You have Lost!"));
+                EndGame();
+            }
+            else
+            {
+                if (Input.Len() != HiddenWord.Len())
+                {
+                    PrintLine(TEXT("You must enter a %i letter word."), HiddenWord.Len());
+                }
+                PrintLine(TEXT("You have %i lives remaining"), Lives);
+            }
+        }       
     }
-    
 }
 
 void UBullCowCartridge::SetupGame()
 {
+    // Setup game variables
     HiddenWord = TEXT("cake");
-    Lives = 5;
+    Lives = HiddenWord.Len();
+    bGameOver = false;
+
+    // Welcome the player
+    PrintLine(TEXT("Welcome to Bull Cows!"));
+    PrintLine(TEXT("Guess the %i letter word!"), HiddenWord.Len());
+    PrintLine(TEXT("You have %i lives."), Lives);
+}
+
+void UBullCowCartridge::EndGame()
+{
+    bGameOver = true;
+    PrintLine(TEXT("Game over! Press enter to continue..."));
 }
