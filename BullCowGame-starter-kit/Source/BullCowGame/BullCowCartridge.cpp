@@ -14,13 +14,17 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
     ClearScreen();
-    
     if (Input == HiddenWord)
     {
         PrintLine(TEXT("You have Won!"));
     }
     else
     {
+        if (Input.Len() != HiddenWord.Len())
+        {
+            PrintLine(FString::Printf(TEXT("You must enter a %d letter word."), HiddenWord.Len()));
+        }
+
         PrintLine(TEXT("You have Lost!"));
     }
     
