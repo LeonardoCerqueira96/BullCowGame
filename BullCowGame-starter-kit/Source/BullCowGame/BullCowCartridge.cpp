@@ -49,6 +49,12 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
         return;
     }
 
+    if (IsIsogram(Guess) == false)
+    {
+        PrintLine(TEXT("You must enter an isogram"));
+        return;
+    }
+
     if (--Lives <= 0) 
     {
         PrintLine(TEXT("You have Lost!"));
@@ -56,6 +62,26 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
         return;
     }
     PrintLine(TEXT("You have %i lives remaining"), Lives);
+}
+
+bool UBullCowCartridge::IsIsogram(const FString& Word) const
+{
+    // Map to keep track of the letters in the word
+    TMap<TCHAR, bool> LetterMap;
+    for (TCHAR Letter : Word)
+    {
+        if (LetterMap.Contains(Letter) == true)
+        {
+            // If the letter has been seen before, it's not an isogram
+            return false;
+        }
+        
+        LetterMap.Add(Letter, true);
+    }
+
+    // If the loop went through all the letters in the word
+    // without returning, it's an isogram
+    return true;
 }
 
 void UBullCowCartridge::EndGame()
