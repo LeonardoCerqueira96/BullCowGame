@@ -1,11 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 #include "BullCowCartridge.h"
 
+#include "HiddenWordList.h"
+
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
 
     SetupGame();
+    PrintLine(TEXT("The number of possible words is %i"), Words.Num());
+    for (int32 Index = 0; Index < 10; ++Index)
+    {
+        if ((Words[Index]).Len() >= 4 && (Words[Index]).Len() <= 8)
+        {
+            PrintLine(Words[Index]);
+        }
+    }
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
