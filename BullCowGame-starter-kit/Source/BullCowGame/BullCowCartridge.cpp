@@ -66,21 +66,17 @@ void UBullCowCartridge::ProcessGuess(const FString& Guess)
 
 bool UBullCowCartridge::IsIsogram(const FString& Word) const
 {
-    // Map to keep track of the letters in the word
-    TMap<TCHAR, bool> LetterMap;
-    for (TCHAR Letter : Word)
+    for (int32 PivotIndex = 0; PivotIndex < Word.Len(); ++PivotIndex)
     {
-        if (LetterMap.Contains(Letter) == true)
+        for (int32 CompareIndex = PivotIndex + 1; CompareIndex < Word.Len(); ++CompareIndex)
         {
-            // If the letter has been seen before, it's not an isogram
-            return false;
+            if (Word[PivotIndex] == Word[CompareIndex])
+            {
+                return false;
+            }
         }
-        
-        LetterMap.Add(Letter, true);
     }
 
-    // If the loop went through all the letters in the word
-    // without returning, it's an isogram
     return true;
 }
 
