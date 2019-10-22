@@ -9,13 +9,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
     SetupGame();
     PrintLine(TEXT("The number of possible words is %i"), Words.Num());
-    for (int32 Index = 0; Index < 10; ++Index)
-    {
-        if ((Words[Index]).Len() >= 4 && (Words[Index]).Len() <= 8)
-        {
-            PrintLine(Words[Index]);
-        }
-    }
+    PrintLine(TEXT("The number of valid words is %i"), GetValidWords(Words).Num());
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
@@ -88,6 +82,20 @@ bool UBullCowCartridge::IsIsogram(const FString& Word) const
     }
 
     return true;
+}
+
+TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList) const
+{
+    TArray<FString> ValidWords;
+    for (FString Word : WordList)
+    {
+        if ((Word.Len() >= 3 && Word.Len() <= 8) && IsIsogram(Word) == true)
+        {
+            ValidWords.Emplace(Word);
+        }
+    }
+
+    return ValidWords;
 }
 
 void UBullCowCartridge::EndGame()
