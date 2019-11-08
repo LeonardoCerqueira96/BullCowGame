@@ -89,7 +89,7 @@ TArray<FString> UBullCowCartridge::GetValidWords(const TArray<FString>& WordList
     TArray<FString> ValidWords;
     for (FString Word : WordList)
     {
-        if ((Word.Len() >= 3 && Word.Len() <= 8) && IsIsogram(Word) == true)
+        if ((Word.Len() >= 3 && Word.Len() <= 9) && IsIsogram(Word) == true)
         {
             ValidWords.Emplace(Word);
         }
